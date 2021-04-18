@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Joseph Odunsi" />
+    <meta name="description" content="Create an image slider with HTML, CSS and JavaScript" />
+    <meta name="keywords" content="image slider, carousel, codepen, css, js" />
+    <title>AG Beyond</title>
+    <style>
+        .slide-container .prev,
+.slide-container .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  transition: all 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.slide-container .prev:hover,
+.slide-container .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+
+.slide-container .prev {
+  left: 2px;
+}
+
+.slide-container .next {
+  right: 2px;
+}
+
+.dots-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.dots-container .dot {
+  cursor: pointer;
+  margin: 5px;
+  width: 20px;
+  height: 20px;
+  color: #333;
+  border-radius: 50%;
+  background-color: #dfd6ce;
+}
+
+.dots-container .dot.active {
+  border: 2px solid green;
+}
+
+* {
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+/*   background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
+}
+
+body h1 {
+  text-align: center;
+}
+
+.slide-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
+  margin: auto;
+  position: relative;
+}
+
+.slide-container .slide {
+  display: none;
+  width: 100%;
+}
+
+.slide-container .slide.fade {
+  animation: fade 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+
+.slide-container .slide img {
+  width: 100%; height: 400px;
+}
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.top a {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body style="background-color: #ECF0F1 ">
+     <div>
+            <nav class="navbar navbar-inverse navbar-fixed">
+            <div class="topnav">
+                 <div class="navbar-header">
+               
+        
+                    <a class="navbar-brand active" href="index.html"><span class="glyphicon glyphicon-globe"></span>&nbsp; AG Beyond</a>
+                </div>
+                <div class="top">
+                    
+                        
+                       
+			<a href="about.html"><span class="glyphicon glyphicon-eye-open"></span>  About Us</a>
+			<a href="news.html" style="color: B4329F"><span class="glyphicon glyphicon-eye-open" ></span>  News Updates</a>
+                         <a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                   <a href="signup.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                </div>
+            </div>
+        </nav>
+        </div>
+      <br>
+     
+    <div class="slide-container">
+      <div class="slide fade">
+        <img src='img/1.jpeg' alt=''>
+      </div>
+      <div class="slide fade">
+        <a href="signup.html"><img src='img/2.jpeg' alt='hello'></a>
+      </div>
+      <div class="slide fade">
+        <a href="signup.html"><img src='img/3.jpeg' alt='hello'></a>
+      </div>
+      <div class="slide fade">
+        <a href="signup.html"><img src='img/4.jpeg' alt='hello'></a>
+      </div>
+	  
+
+      <a href="#" class="prev" title="Previous">&#10094</a>
+      <a href="#" class="next" title="Next">&#10095</a>
+    </div>
+    <div class="dots-container">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+	 
+    </div>
+     <script type="text/javascript">
+          let currentSlide = 0;
+const slides = document.querySelectorAll(".slide")
+const dots = document.querySelectorAll('.dot')
+
+const init = (n) => {
+  slides.forEach((slide, index) => {
+    slide.style.display = "none"
+    dots.forEach((dot, index) => {
+      dot.classList.remove("active")
+    })
+  })
+  slides[n].style.display = "block"
+  dots[n].classList.add("active")
+}
+document.addEventListener("DOMContentLoaded", init(currentSlide))
+const next = () => {
+  currentSlide >= slides.length - 1 ? currentSlide = 0 : currentSlide++
+  init(currentSlide)
+}
+
+const prev = () => {
+  currentSlide <= 0 ? currentSlide = slides.length - 1 : currentSlide--
+  init(currentSlide)
+}
+
+document.querySelector(".next").addEventListener('click', next)
+
+document.querySelector(".prev").addEventListener('click', prev)
+
+
+setInterval(() => {
+  next()
+}, 5000);
+
+dots.forEach((dot, i) => {
+  dot.addEventListener("click", () => {
+    console.log(currentSlide)
+    init(i)
+    currentSlide = i
+  })
+})
+
+          </script>
+          
+          <br>  
+    <div class="contain container-fluid"> 
+        <IMG class="TextWrapLeft para" SRC="img/logo.jpeg" alt="logo">
+        <p>&nbsp;<font style="font-size: 40px; font-family: Comic Sans MS, cursive, sans-serif; color: #6E2C00 ">Welcome to AG Beyond
+            </font><br><br>
+           &nbsp; It’s true when we say farming make people happy. From potted plants and gardening supplies, to real
+           agriculture, we have a little something to make every farming lover smile.
+        </P>
+    </div>
+          
+       
+          <br>
+         
+          <a class="weatherwidget-io contain" href="https://forecast7.com/en/11d1378d66/tamil-nadu/" data-label_1="TAMIL NADU" data-label_2="WEATHER" data-theme="retro-sky" >TAMIL NADU WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+         
+         
+
+          
+         
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+<br>
+
+<div class="contain">
+    <iframe style="display:block;margin:0 auto;" src="https://www.youtube.com/embed/3Ww2TP_tU7o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" id="video_background_2" allowfullscreen></iframe>
+    
+    <iframe style="display:block;margin:0 auto;" src="https://www.youtube.com/embed/0XF09xOM4YY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" id="video_background_2" allowfullscreen></iframe>
+ 
+    <iframe style="display:block;margin:0 auto;" src="https://www.youtube.com/embed/snKnO2Tr7BY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" id="video_background_2" allowfullscreen></iframe>
+</div>
+
+<br><br>
+  </body>
+</html>
